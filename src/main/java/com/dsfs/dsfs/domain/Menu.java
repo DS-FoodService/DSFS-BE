@@ -25,7 +25,6 @@ public class Menu extends BaseEntity {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @Column(name = "icons")
     private List<Icon> icons;
 
     @ManyToOne(fetch = FetchType.LAZY)
