@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local-env:
+        - local
+      dev-env:
+        - dev
+    include:
+      - jwt
+logging:
+  level:
+    org:
+      springframework:
+        security=DEBUG:
