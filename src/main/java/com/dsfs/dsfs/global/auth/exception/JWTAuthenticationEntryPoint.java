@@ -1,7 +1,6 @@
 package com.dsfs.dsfs.global.auth.exception;
 
 import com.dsfs.dsfs.global.ApiResponse;
-import com.dsfs.dsfs.global.error.exception.GeneralException;
 import com.dsfs.dsfs.global.error.status.ErrorStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -26,8 +25,8 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
     response.setContentType("application/json;charset=UTF-8");
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-    GeneralException customException = new GeneralException(ErrorStatus.INVALID_TOKEN_ERROR);
-    String jsonResponse = objectMapper.writeValueAsString(customException);
+    ApiResponse<?> errorResponse = ApiResponse.onFailure(ErrorStatus.INVALID_TOKEN_ERROR.getCode(),ErrorStatus.INVALID_TOKEN_ERROR.getMessage(), null);
+    String jsonResponse = objectMapper.writeValueAsString(errorResponse);
     response.getWriter().write(jsonResponse);
   }
 }
