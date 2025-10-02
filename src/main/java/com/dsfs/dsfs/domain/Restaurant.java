@@ -20,8 +20,8 @@ public class Restaurant extends BaseEntity {
     private String name;
     private Long addressId; //카카오맵 고유 장소 id
     private String address; // 도로명 주소
-    private Double latitude; // 경도, x
-    private Double longitude; // 위도, y
+    private Double longitude; // 경도, x
+    private Double latitude; // 위도, y
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Review> reviews;
