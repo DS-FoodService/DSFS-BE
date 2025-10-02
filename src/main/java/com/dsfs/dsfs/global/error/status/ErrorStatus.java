@@ -21,6 +21,7 @@ public enum ErrorStatus implements BaseErrorCode {
     ALREADY_USER_ID_SAME(HttpStatus.BAD_REQUEST, "USER406", "사용자의 아이디와 동일합니다."),
     ALREADY_USER_NAME_EXISTS(HttpStatus.BAD_REQUEST, "USER405", "이미 존재하는 닉네임입니다."),
     ALREADY_USER_NAME_SAME(HttpStatus.BAD_REQUEST, "USER407", "사용자의 닉네임과 동일합니다."),
+    INVALID_TOKEN_ERROR(HttpStatus.UNAUTHORIZED, "USER402", "유효하지 않은 토큰입니다."),
 
     // 즐겨찾기 관련
     ALREADY_SCRAP_EXISTS(HttpStatus.BAD_REQUEST, "SCRAP405", "이미 즐겨찾기되었습니다."),
