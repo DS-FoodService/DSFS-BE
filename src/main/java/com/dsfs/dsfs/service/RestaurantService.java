@@ -3,6 +3,7 @@ package com.dsfs.dsfs.service;
 import com.dsfs.dsfs.domain.Restaurant;
 import com.dsfs.dsfs.domain.repository.RestaurantRepository;
 import com.dsfs.dsfs.dto.request.CreateRestaurantRequestDto;
+import com.dsfs.dsfs.dto.response.CreatedRestaurantDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
 
-    public void createRestaurant(CreateRestaurantRequestDto req) {
+    public CreatedRestaurantDTO createRestaurant(CreateRestaurantRequestDto req) {
         Restaurant restaurant = Restaurant.builder()
                 .name(req.name())
                 .addressId(req.addressId())
@@ -21,6 +22,10 @@ public class RestaurantService {
                 .latitude(req.latitude())
                 .build();
 
-        restaurantRepository.save(restaurant);
+        Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+
+        return CreatedRestaurantDTO.builder()
+                .restaurantId(savedRestaurant.getRestaurantId())
+                .build();
     }
 }
