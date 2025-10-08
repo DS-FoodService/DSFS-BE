@@ -34,7 +34,7 @@ public record RestaurantResponseDto(
         public static RestaurantResponseDto of(Long userId, Restaurant restaurant) {
 
                 boolean isBookmarked = Optional.ofNullable(userId)
-                        .map(id -> restaurant.getScraps().stream()
+                        .map(id -> restaurant.getBookmarks().stream()
                                 .anyMatch(scrap -> scrap.getUser().getUserId().equals(id)))
                         .orElse(false);
 

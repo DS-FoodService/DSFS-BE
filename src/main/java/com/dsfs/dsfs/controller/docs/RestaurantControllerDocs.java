@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 public interface RestaurantControllerDocs {
     @Operation(summary = "식당 등록")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "식당 등록 성공")
@@ -19,7 +21,7 @@ public interface RestaurantControllerDocs {
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "식당 목록 조회 성공")
     public ApiResponse<RestaurantListDto> getRestaurants(
             @LoginInfo Long id,
-            @RequestParam(value = "icon") Icon icon,
+            @RequestParam(value = "icons") List<Icon> icons,
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size);
 }

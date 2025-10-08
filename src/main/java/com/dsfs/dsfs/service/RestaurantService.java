@@ -3,7 +3,6 @@ package com.dsfs.dsfs.service;
 import com.dsfs.dsfs.domain.Restaurant;
 import com.dsfs.dsfs.domain.enums.Icon;
 import com.dsfs.dsfs.domain.repository.RestaurantRepository;
-import com.dsfs.dsfs.domain.repository.UserRepository;
 import com.dsfs.dsfs.dto.request.CreateRestaurantRequestDto;
 import com.dsfs.dsfs.dto.response.CreatedRestaurantDto;
 import com.dsfs.dsfs.dto.response.RestaurantListDto;
@@ -21,7 +20,6 @@ import java.util.List;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
-    private final UserRepository userRepository;
 
     public CreatedRestaurantDto createRestaurant(CreateRestaurantRequestDto req) {
         Restaurant restaurant = Restaurant.builder()
@@ -43,13 +41,13 @@ public class RestaurantService {
 
         // Todo : 현재 위치에서 거리순, 현재 위치가 없다면 별점순, 별점이 동일하다면 이름 순
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<Restaurant> restaurants;
+        Page<Restaurant> restaurants= restaurantRepository.findAll(pageRequest);
         // Todo : 아이콘 별 필터링(아이콘은 복수 선택 가능)
-        if(icons.isEmpty()){
-            restaurants = restaurantRepository.findAll(pageRequest);
-        } else {
-            restaurants = restaurantRepository.findByIcons(icons,pageRequest);
-        }
+//        if(icons.isEmpty()){
+//            restaurants = restaurantRepository.findAll(pageRequest);
+//        } else {
+//            restaurants = restaurantRepository.findByIcons(icons,pageRequest);
+//        }
         boolean isLast = restaurants.isLast();
         int totalPage = restaurants.getTotalPages();
         long totalElement = restaurants.getTotalElements();

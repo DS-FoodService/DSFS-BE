@@ -27,7 +27,7 @@ public class Restaurant extends BaseEntity {
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<Scrap> scraps;
+    private List<Bookmark> bookmarks;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Menu> menus;
