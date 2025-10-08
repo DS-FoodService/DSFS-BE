@@ -3,7 +3,7 @@ package com.dsfs.dsfs.dto.response;
 import lombok.Builder;
 
 @Builder
-public record CreatedRestaurantDTO(
+public record CreatedRestaurantDto(
         Long restaurantId
 ) {
 }
