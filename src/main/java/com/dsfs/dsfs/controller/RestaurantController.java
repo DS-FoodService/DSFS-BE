@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/restaurants")
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class RestaurantController implements RestaurantControllerDocs {
     }
 
     @GetMapping
-    public ApiResponse<RestaurantListDto> getRestaurants(Long id, Icon icon, int page, int size) {
-        return ApiResponse.onSuccess(restaurantService.getRestaurants(id, icon, page, size));
+    public ApiResponse<RestaurantListDto> getRestaurants(Long id, List<Icon> icons, int page, int size) {
+        return ApiResponse.onSuccess(restaurantService.getRestaurants(id, icons, page, size));
     }
 }
