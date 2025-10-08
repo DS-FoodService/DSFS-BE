@@ -5,9 +5,9 @@ import com.dsfs.dsfs.domain.enums.Icon;
 import com.dsfs.dsfs.domain.repository.CustomRestaurantRepositoryImpl;
 import com.dsfs.dsfs.domain.repository.RestaurantRepository;
 import com.dsfs.dsfs.dto.request.CreateRestaurantRequestDto;
-import com.dsfs.dsfs.dto.response.CreatedRestaurantDto;
-import com.dsfs.dsfs.dto.response.RestaurantListDto;
-import com.dsfs.dsfs.dto.response.RestaurantResponseDto;
+import com.dsfs.dsfs.dto.response.*;
+import com.dsfs.dsfs.global.error.exception.GeneralException;
+import com.dsfs.dsfs.global.error.status.ErrorStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -57,6 +57,24 @@ public class RestaurantService {
                 .totalPage(totalPage)
                 .totalElement(totalElement)
                 .restaurants(restaurantDtos)
+                .build();
+    }
+
+    public RestaurantDetailDto getRestaurantDetail(Long id, Long restaurantId) {
+
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.RESTAURANT_NOT_FOUND));
+
+        RestaurantResponseDto restaurantResponseDto = RestaurantResponseDto.of(id, restaurant);
+        List<MenuListDto> menuListDtos = restaurant.getMenus().stream()
+                .map(MenuListDto::of).toList();
+        List<ReviewListDto> reviewListDtos = restaurant.getReviews().stream()
+                .map(ReviewListDto::of).toList();
+
+        return RestaurantDetailDto.builder()
+                .restaurant(restaurantResponseDto)
+                .menus(menuListDtos)
+                .reviews(reviewListDtos)
                 .build();
     }
 }

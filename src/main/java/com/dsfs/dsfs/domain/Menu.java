@@ -20,8 +20,7 @@ public class Menu extends BaseEntity {
     private Long menuId;
     private String name;
     private Double price;
-    private String description;
-    private String info_url;
+    private String info;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
