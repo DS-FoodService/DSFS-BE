@@ -29,4 +29,8 @@ public interface RestaurantControllerDocs {
     @Operation(summary = "식당 상세 조회")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "식당 상세 조회 성공")
     public ApiResponse<RestaurantDetailDto> getRestaurantDetail(@LoginInfo Long id, @PathVariable Long restaurantId);
+
+    @Operation(summary = "식당 삭제")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "식당 삭제 성공")
+    public ApiResponse<?> deleteRestaurant(@LoginInfo Long id, @PathVariable Long restaurantId);
 }

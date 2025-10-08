@@ -77,4 +77,10 @@ public class RestaurantService {
                 .reviews(reviewListDtos)
                 .build();
     }
+
+    public void deleteRestaurant(Long id, Long restaurantId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.RESTAURANT_NOT_FOUND));
+        restaurantRepository.delete(restaurant);
+    }
 }

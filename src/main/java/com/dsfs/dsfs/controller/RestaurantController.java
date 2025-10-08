@@ -34,4 +34,10 @@ public class RestaurantController implements RestaurantControllerDocs {
     public ApiResponse<RestaurantDetailDto> getRestaurantDetail(Long id, @PathVariable("restaurantId") Long restaurantId) {
         return ApiResponse.onSuccess(restaurantService.getRestaurantDetail(id, restaurantId));
     }
+
+    @DeleteMapping("/{restaurantId}")
+    public ApiResponse<?> deleteRestaurant(Long id, @PathVariable("restaurantId") Long restaurantId) {
+        restaurantService.deleteRestaurant(id, restaurantId);
+        return ApiResponse.onSuccess("성공적으로 삭제 되었습니다.");
+    }
 }
