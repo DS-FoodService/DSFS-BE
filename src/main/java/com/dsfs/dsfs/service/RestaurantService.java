@@ -42,7 +42,7 @@ public class RestaurantService {
     public RestaurantListDto getRestaurants(Long id, List<Icon> icons, int page, int size) {
 
         // Todo : 현재 위치에서 거리순, 현재 위치가 없다면 별점순, 별점이 동일하다면 이름 순
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "score"));
         Page<Restaurant> restaurants= customRestaurantRepositoryImpl.findRestaurantsByIcons(icons, pageRequest);
         boolean isLast = restaurants.isLast();
         int totalPage = restaurants.getTotalPages();

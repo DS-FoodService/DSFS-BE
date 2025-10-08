@@ -17,11 +17,11 @@ public interface RestaurantControllerDocs {
     public ApiResponse<?> createRestaurant(@LoginInfo Long id, @RequestBody CreateRestaurantRequestDto req);
 
 
-    @Operation(description = "상품 목록을 조회합니다.")
+    @Operation(summary = "식당 목록 조회")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "식당 목록 조회 성공")
     public ApiResponse<RestaurantListDto> getRestaurants(
             @LoginInfo Long id,
-            @RequestParam(value = "icons") List<Icon> icons,
-            @RequestParam(value = "page") int page,
-            @RequestParam(value = "size") int size);
+            @RequestParam(value = "icons", required = false) List<Icon> icons,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size);
 }
