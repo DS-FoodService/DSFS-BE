@@ -24,5 +24,5 @@ public class User extends BaseEntity {
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Scrap> scraps;
+    private List<Bookmark> bookmarks;
 }
