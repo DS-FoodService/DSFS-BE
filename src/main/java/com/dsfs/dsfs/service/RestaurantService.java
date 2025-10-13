@@ -68,13 +68,13 @@ public class RestaurantService {
         RestaurantResponseDto restaurantResponseDto = RestaurantResponseDto.of(id, restaurant);
         List<MenuListDto> menuListDtos = restaurant.getMenus().stream()
                 .map(MenuListDto::of).toList();
-        List<ReviewListDto> reviewListDtos = restaurant.getReviews().stream()
-                .map(ReviewListDto::of).toList();
+        List<ReviewDetailDto> reviewDetailDtos = restaurant.getReviews().stream()
+                .map(ReviewDetailDto::of).toList();
 
         return RestaurantDetailDto.builder()
                 .restaurant(restaurantResponseDto)
                 .menus(menuListDtos)
-                .reviews(reviewListDtos)
+                .reviews(reviewDetailDtos)
                 .build();
     }
 

@@ -12,6 +12,6 @@ public record RestaurantDetailDto(
         @Schema(description = "메뉴")
         List<MenuListDto> menus,
         @Schema(description = "리뷰")
-        List<ReviewListDto> reviews
+        List<ReviewDetailDto> reviews
 ) {
 }
