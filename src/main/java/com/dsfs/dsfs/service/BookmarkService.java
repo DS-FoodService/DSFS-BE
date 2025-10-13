@@ -65,4 +65,10 @@ public class BookmarkService {
                 .restaurants(restaurantResponseDtos)
                 .build();
     }
+
+    public void deleteBookmark(Long bookmarkId) {
+        Bookmark bookmark = bookmarkRepository.findById(bookmarkId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.BOOKMARK_NOT_FOUND));
+        bookmarkRepository.delete(bookmark);
+    }
 }

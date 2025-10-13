@@ -6,10 +6,7 @@ import com.dsfs.dsfs.dto.request.CreateBookmarkRequestDto;
 import com.dsfs.dsfs.global.ApiResponse;
 import com.dsfs.dsfs.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/bookmark")
@@ -24,5 +21,11 @@ public class BookmarkController implements BookmarkControllerDocs {
     @GetMapping
     public ApiResponse<?> getBookmarks(Long id, int page, int size) {
         return ApiResponse.onSuccess(bookmarkService.getBookmarks(id, page, size));
+    }
+
+    @DeleteMapping("/{bookmarkId}")
+    public ApiResponse<?> deleteBookmark(Long id, @PathVariable("bookmarkId") Long bookmarkId) {
+        bookmarkService.deleteBookmark(bookmarkId);
+        return ApiResponse.onSuccess("성공적으로 삭제 되었습니다.");
     }
 }
