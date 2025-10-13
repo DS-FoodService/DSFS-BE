@@ -10,8 +10,6 @@ public record RestaurantDetailDto(
         @Schema(description = "식당 정보")
         RestaurantResponseDto restaurant,
         @Schema(description = "메뉴")
-        List<MenuListDto> menus,
-        @Schema(description = "리뷰")
-        List<ReviewDetailDto> reviews
+        List<MenuListDto> menus
 ) {
 }
