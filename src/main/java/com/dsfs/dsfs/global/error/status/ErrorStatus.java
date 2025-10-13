@@ -24,10 +24,11 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_TOKEN_ERROR(HttpStatus.UNAUTHORIZED, "USER402", "유효하지 않은 토큰입니다."),
 
     // 즐겨찾기 관련
-    ALREADY_SCRAP_EXISTS(HttpStatus.BAD_REQUEST, "SCRAP405", "이미 즐겨찾기되었습니다."),
-    SCRAP_NOT_FOUND(HttpStatus.BAD_REQUEST, "SCRAP404", "즐겨찾기가 되어 있지 않습니다.");
+    ALREADY_BOOKMARK_EXISTS(HttpStatus.BAD_REQUEST, "BOOKMARK405", "이미 즐겨찾기되었습니다."),
+    BOOKMARK_NOT_FOUND(HttpStatus.BAD_REQUEST, "BOOKMARK404", "즐겨찾기가 되어 있지 않습니다."),
 
-
+    // 식당 관련
+    RESTAURANT_NOT_FOUND(HttpStatus.BAD_REQUEST, "RESTAURANT404", "해당하는 식당 정보가 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
