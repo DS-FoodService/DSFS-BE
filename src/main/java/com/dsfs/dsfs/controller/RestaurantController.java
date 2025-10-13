@@ -4,14 +4,12 @@ import com.dsfs.dsfs.controller.docs.RestaurantControllerDocs;
 import com.dsfs.dsfs.domain.enums.Icon;
 import com.dsfs.dsfs.dto.request.CreateRestaurantRequestDto;
 import com.dsfs.dsfs.dto.response.CreatedRestaurantDto;
+import com.dsfs.dsfs.dto.response.RestaurantDetailDto;
 import com.dsfs.dsfs.dto.response.RestaurantListDto;
 import com.dsfs.dsfs.global.ApiResponse;
 import com.dsfs.dsfs.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +28,16 @@ public class RestaurantController implements RestaurantControllerDocs {
     @GetMapping
     public ApiResponse<RestaurantListDto> getRestaurants(Long id, List<Icon> icons, int page, int size) {
         return ApiResponse.onSuccess(restaurantService.getRestaurants(id, icons, page, size));
+    }
+
+    @GetMapping("/{restaurantId}")
+    public ApiResponse<RestaurantDetailDto> getRestaurantDetail(Long id, @PathVariable("restaurantId") Long restaurantId) {
+        return ApiResponse.onSuccess(restaurantService.getRestaurantDetail(id, restaurantId));
+    }
+
+    @DeleteMapping("/{restaurantId}")
+    public ApiResponse<?> deleteRestaurant(Long id, @PathVariable("restaurantId") Long restaurantId) {
+        restaurantService.deleteRestaurant(id, restaurantId);
+        return ApiResponse.onSuccess("성공적으로 삭제 되었습니다.");
     }
 }
