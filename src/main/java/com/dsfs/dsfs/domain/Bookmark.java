@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "scraps")
+@Table(name = "bookmarks")
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,7 +13,7 @@ import lombok.*;
 public class Bookmark extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long scrapId;
+    private Long bookmarkId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
