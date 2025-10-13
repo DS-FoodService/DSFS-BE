@@ -1,5 +1,6 @@
 package com.dsfs.dsfs.dto.response;
 
+import com.dsfs.dsfs.domain.Bookmark;
 import com.dsfs.dsfs.domain.Restaurant;
 import com.dsfs.dsfs.domain.Review;
 import com.dsfs.dsfs.domain.enums.Icon;
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 public record RestaurantResponseDto(
         @Schema(description = "즐겨찾기 여부")
         Boolean isBookmarked,
+        @Schema(description = "즐겨찾기 id")
+        Long bookmarkId,
         @Schema(description = "식당 id")
         Long restaurantId,
         @Schema(description = "식당 이름")
@@ -33,12 +36,16 @@ public record RestaurantResponseDto(
 ) {
         public static RestaurantResponseDto of(Long userId, Restaurant restaurant) {
 
-                boolean isBookmarked = Optional.ofNullable(userId)
-                        .map(id -> restaurant.getBookmarks().stream()
-                                .anyMatch(scrap -> scrap.getUser().getUserId().equals(id)))
-                        .orElse(false);
+                Optional<Long> bookmarkIdOpt = Optional.ofNullable(userId)
+                        .flatMap(id -> restaurant.getBookmarks().stream()
+                                .filter(b -> b.getUser().getUserId().equals(id))
+                                .map(Bookmark::getBookmarkId)
+                                .findFirst());
 
-                double averageScore = restaurant.getReviews().isEmpty()
+                Boolean isBookmarked = bookmarkIdOpt.isPresent();
+                Long bookmarkId = bookmarkIdOpt.orElse(null);
+
+                Double averageScore = restaurant.getReviews().isEmpty()
                         ? 0.0
                         : restaurant.getReviews().stream()
                         .mapToDouble(Review::getScore)
@@ -52,6 +59,7 @@ public record RestaurantResponseDto(
 
                 return RestaurantResponseDto.builder()
                         .isBookmarked(isBookmarked)
+                        .bookmarkId(bookmarkId)
                         .restaurantId(restaurant.getRestaurantId())
                         .name(restaurant.getName())
                         .addressId(restaurant.getAddressId())
