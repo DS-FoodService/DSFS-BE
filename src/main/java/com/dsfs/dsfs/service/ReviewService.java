@@ -1,6 +1,5 @@
 package com.dsfs.dsfs.service;
 
-import com.dsfs.dsfs.controller.ReviewQuery;
 import com.dsfs.dsfs.domain.Restaurant;
 import com.dsfs.dsfs.domain.Review;
 import com.dsfs.dsfs.domain.User;
@@ -29,6 +28,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     public CreatedReviewDto createReview(Long id, ReviewCreateDto req) {
+        if(id == null) throw new GeneralException(ErrorStatus.INVALID_TOKEN_ERROR);
+
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
 
@@ -48,14 +49,15 @@ public class ReviewService {
                 .build();
     }
 
-    public ReviewListDto getReviews(Long id, ReviewQuery query, Long restaurantId, int page, int size) {
+    public ReviewListDto getReviews(Long id, String query, Long restaurantId, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Review> reviews;
-        if(query.equals(ReviewQuery.MY)){
+        if(query.equals("my")){
+            if(id == null) throw new GeneralException(ErrorStatus.INVALID_TOKEN_ERROR);
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
             reviews = reviewRepository.findAllByUser(user,pageRequest);
-        } else if (query.equals(ReviewQuery.RESTAURANT)) {
+        } else if (query.equals("restaurant")) {
             Restaurant restaurant = restaurantRepository.findById(restaurantId)
                     .orElseThrow(() -> new GeneralException(ErrorStatus.RESTAURANT_NOT_FOUND));
             reviews = reviewRepository.findAllByRestaurant(restaurant, pageRequest);

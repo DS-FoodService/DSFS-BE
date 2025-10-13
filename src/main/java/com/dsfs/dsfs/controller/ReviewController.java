@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/restaurants")
+@RequestMapping("/reviews")
 @RequiredArgsConstructor
 public class ReviewController implements ReviewControllerDocs {
     private final ReviewService reviewService;
@@ -22,7 +22,7 @@ public class ReviewController implements ReviewControllerDocs {
     }
 
     @GetMapping
-    public ApiResponse<ReviewListDto> getReviews(Long id, ReviewQuery query, Long restaurantId, int page, int size) {
+    public ApiResponse<ReviewListDto> getReviews(Long id, String query, Long restaurantId, int page, int size) {
         return ApiResponse.onSuccess(reviewService.getReviews(id, query, restaurantId, page, size));
     }
 }
