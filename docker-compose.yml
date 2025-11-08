@@ -1,0 +1,12 @@
+version: '3.8'   # 버전은 명시적으로 최신으로 (3.8 이상 권장)
+
+services:
+  springboot:
+    build: .
+    container_name: dsfs-be
+    image: dsfs-be:latest
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    restart: always
