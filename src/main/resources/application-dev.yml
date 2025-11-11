@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  h2:
+    console:
+      enabled: true
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${RDS_DB_USERNAME}
+    password: ${RDS_DB_PASSWORD}
+    url: ${RDS_DB_URL}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    defer-datasource-initialization: true
+logging:
+  level:
+    root: info
+
+    # STOMP/메시징
+    org.springframework.messaging: DEBUG
+    org.springframework.messaging.simp: DEBUG
+    org.springframework.messaging.support: DEBUG
+    org.springframework.security.messaging: DEBUG
+
+    # 웹소켓/핸드셰이크
+    org.springframework.web.socket: DEBUG
+    org.springframework.web.socket.sockjs: DEBUG
+
+    # 시큐리티 전반
+    org.springframework.security: DEBUG
+
+    # 우리 앱 패키지
+    com.dsfs: DEBUG
