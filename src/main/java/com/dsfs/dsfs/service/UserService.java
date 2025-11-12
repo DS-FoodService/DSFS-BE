@@ -20,9 +20,12 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public void signUp(SignUpUserInfoDto signUpUserInfoDto) {
-        User existUser = userRepository
-                .findById(signUpUserInfoDto.getUserid())
-                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
+        User existUser = null;
+        if(signUpUserInfoDto.getUserid() != null) {
+            existUser = userRepository
+                    .findById(signUpUserInfoDto.getUserid())
+                    .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));   
+        }
 
         if (existUser != null) {
             throw new GeneralException(ErrorStatus.ALREADY_USER_ID_EXISTS);
