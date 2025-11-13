@@ -1,6 +1,7 @@
 package com.dsfs.dsfs.controller;
 
 import com.dsfs.dsfs.controller.docs.RestaurantControllerDocs;
+import com.dsfs.dsfs.domain.enums.CampusType;
 import com.dsfs.dsfs.domain.enums.Icon;
 import com.dsfs.dsfs.dto.request.CreateRestaurantRequestDto;
 import com.dsfs.dsfs.dto.response.CreatedRestaurantDto;
@@ -26,8 +27,8 @@ public class RestaurantController implements RestaurantControllerDocs {
     }
 
     @GetMapping
-    public ApiResponse<RestaurantListDto> getRestaurants(Long id, List<Icon> icons, int page, int size) {
-        return ApiResponse.onSuccess(restaurantService.getRestaurants(id, icons, page, size));
+    public ApiResponse<RestaurantListDto> getRestaurants(Long id, CampusType query, List<Icon> icons, int page, int size) {
+        return ApiResponse.onSuccess(restaurantService.getRestaurants(id, query, icons, page, size));
     }
 
     @GetMapping("/{restaurantId}")

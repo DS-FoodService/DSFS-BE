@@ -1,6 +1,7 @@
 package com.dsfs.dsfs.service;
 
 import com.dsfs.dsfs.domain.Restaurant;
+import com.dsfs.dsfs.domain.enums.CampusType;
 import com.dsfs.dsfs.domain.enums.Icon;
 import com.dsfs.dsfs.domain.repository.CustomRestaurantRepositoryImpl;
 import com.dsfs.dsfs.domain.repository.RestaurantRepository;
@@ -39,11 +40,11 @@ public class RestaurantService {
                 .build();
     }
 
-    public RestaurantListDto getRestaurants(Long id, List<Icon> icons, int page, int size) {
+    public RestaurantListDto getRestaurants(Long id, CampusType query, List<Icon> icons, int page, int size) {
 
         // Todo : 현재 위치에서 거리순, 현재 위치가 없다면 별점순, 별점이 동일하다면 이름 순
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "score"));
-        Page<Restaurant> restaurants= customRestaurantRepositoryImpl.findRestaurantsByIcons(icons, pageRequest);
+        Page<Restaurant> restaurants = customRestaurantRepositoryImpl.findRestaurantsByIconsAndCampusType(icons, query, pageRequest);
         boolean isLast = restaurants.isLast();
         int totalPage = restaurants.getTotalPages();
         long totalElement = restaurants.getTotalElements();

@@ -1,6 +1,7 @@
 package com.dsfs.dsfs.domain;
 
 import com.dsfs.dsfs.domain.common.BaseEntity;
+import com.dsfs.dsfs.domain.enums.CampusType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,9 @@ public class Restaurant extends BaseEntity {
     private String address; // 도로명 주소
     private Double longitude; // 경도, x
     private Double latitude; // 위도, y
+
+    @Enumerated(EnumType.STRING)
+    private CampusType campusType; // 교내, 교외
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Review> reviews;

@@ -3,6 +3,7 @@ package com.dsfs.dsfs.dto.response;
 import com.dsfs.dsfs.domain.Bookmark;
 import com.dsfs.dsfs.domain.Restaurant;
 import com.dsfs.dsfs.domain.Review;
+import com.dsfs.dsfs.domain.enums.CampusType;
 import com.dsfs.dsfs.domain.enums.Icon;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -21,6 +22,8 @@ public record RestaurantResponseDto(
         Long restaurantId,
         @Schema(description = "식당 이름")
         String name,
+        @Schema(description = "식당 타입")
+        CampusType campusType,
         @Schema(description = "장소 고유 id")
         Long addressId,
         @Schema(description = "경도, x")
@@ -62,6 +65,7 @@ public record RestaurantResponseDto(
                         .bookmarkId(bookmarkId)
                         .restaurantId(restaurant.getRestaurantId())
                         .name(restaurant.getName())
+                        .campusType(restaurant.getCampusType())
                         .addressId(restaurant.getAddressId())
                         .longitude(restaurant.getLongitude())
                         .latitude(restaurant.getLatitude())

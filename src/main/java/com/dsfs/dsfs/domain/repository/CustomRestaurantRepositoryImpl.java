@@ -3,7 +3,10 @@ package com.dsfs.dsfs.domain.repository;
 import com.dsfs.dsfs.domain.QMenu;
 import com.dsfs.dsfs.domain.QRestaurant;
 import com.dsfs.dsfs.domain.Restaurant;
+import com.dsfs.dsfs.domain.enums.CampusType;
 import com.dsfs.dsfs.domain.enums.Icon;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,40 +26,51 @@ public class CustomRestaurantRepositoryImpl implements CustomRestaurantRepositor
     private static final QMenu m = QMenu.menu;
 
     @Override
-    public Page<Restaurant> findRestaurantsByIcons(List<Icon> icons, Pageable pageable) {
-        // 아이콘 필터 비어있으면 전체 조회
-        if (icons == null || icons.isEmpty()) {
-            List<Restaurant> content = jpaQueryFactory
-                    .selectFrom(r)
-                    .offset(pageable.getOffset())
-                    .limit(pageable.getPageSize())
-                    .fetch();
+    public Page<Restaurant> findRestaurantsByIconsAndCampusType(
+            List<Icon> icons,
+            CampusType campusType,
+            Pageable pageable
+    ) {
+        QRestaurant restaurant = QRestaurant.restaurant;
+        QMenu menu = QMenu.menu;
 
-            Long total = jpaQueryFactory
-                    .select(r.count())
-                    .from(r)
-                    .fetchOne();
+        BooleanBuilder builder = new BooleanBuilder();
 
-            return new PageImpl<>(content, pageable, total == null ? 0 : total);
+        // 1) CampusType 필터 (null 이면 전체)
+        if (campusType != null) {
+            builder.and(restaurant.campusType.eq(campusType));
         }
 
-        // OR 조건: 선택한 아이콘 중 하나라도 포함
+        // 2) Icon 필터 (null 또는 빈 배열이면 전체)
+        if (icons != null && !icons.isEmpty()) {
+            builder.and(
+                    JPAExpressions
+                            .selectOne()
+                            .from(menu)
+                            .where(
+                                    menu.restaurant.restaurantId.eq(restaurant.restaurantId)
+                                            .and(menu.icons.any().in(icons))
+                            )
+                            .exists()
+            );
+        }
+
+        // 실제 데이터 조회
         List<Restaurant> content = jpaQueryFactory
-                .selectDistinct(r)
-                .from(r)
-                .join(r.menus, m)
-                .where(m.icons.any().in(icons))   // 핵심
+                .selectFrom(restaurant)
+                .where(builder)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
+        // total count
         Long total = jpaQueryFactory
-                .select(r.restaurantId.countDistinct())
-                .from(r)
-                .join(r.menus, m)
-                .where(m.icons.any().in(icons))   // 동일 조건
+                .select(restaurant.count())
+                .from(restaurant)
+                .where(builder)
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, total == null ? 0 : total);
     }
+
 }

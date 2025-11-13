@@ -1,5 +1,6 @@
 package com.dsfs.dsfs.controller.docs;
 
+import com.dsfs.dsfs.domain.enums.CampusType;
 import com.dsfs.dsfs.domain.enums.Icon;
 import com.dsfs.dsfs.dto.request.CreateRestaurantRequestDto;
 import com.dsfs.dsfs.dto.response.RestaurantDetailDto;
@@ -7,6 +8,8 @@ import com.dsfs.dsfs.dto.response.RestaurantListDto;
 import com.dsfs.dsfs.global.ApiResponse;
 import com.dsfs.dsfs.global.auth.annotation.LoginInfo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +25,11 @@ public interface RestaurantControllerDocs {
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "식당 목록 조회 성공")
     public ApiResponse<RestaurantListDto> getRestaurants(
             @LoginInfo Long id,
+            @RequestParam(value = "query", required = false) @Parameter(description = "필터",
+            examples = {
+                    @ExampleObject(name = "학식당 조회", summary = "학식당 조회", value = "ON_CAMPUS"),
+                    @ExampleObject(name = "학교 밖 식당 조회", description = "학교 밖 식당 조회", summary = "학교 밖 식당 조회", value = "OFF_CAMPUS"),
+                    @ExampleObject(name = "전체 식당 조회", summary = "전체 식당 조회", value = "")}) CampusType query,
             @RequestParam(value = "icons", required = false) List<Icon> icons,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size);
