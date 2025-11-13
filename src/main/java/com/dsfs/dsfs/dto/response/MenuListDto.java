@@ -15,8 +15,8 @@ public record MenuListDto(
         String name,
         @Schema(description = "메뉴 가격")
         Double price,
-        @Schema(description = "영양 정보")
-        String info,
+        @Schema(description = "메뉴 이미지")
+        String imgUrl,
         @Schema(description = "아이콘")
         List<Icon> icons
 ) {
@@ -25,7 +25,7 @@ public record MenuListDto(
                 .menuId(menu.getMenuId())
                 .name(menu.getName())
                 .price(menu.getPrice())
-                .info(menu.getInfo())
+                .imgUrl(menu.getImg_url())
                 .icons(menu.getIcons())
                 .build();
     }
