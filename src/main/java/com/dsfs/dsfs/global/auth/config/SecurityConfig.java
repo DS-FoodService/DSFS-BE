@@ -5,6 +5,7 @@ import com.dsfs.dsfs.global.auth.filter.JWTFilter;
 import com.dsfs.dsfs.global.auth.jwt.JWTUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -26,15 +27,16 @@ public class SecurityConfig {
   }
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.cors(AbstractHttpConfigurer::disable)
+    http
         .csrf(csrf -> csrf.disable())
         .formLogin(formLogin -> formLogin.disable())
         .httpBasic(httpBasic -> httpBasic.disable())
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
-        .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/api/**").authenticated()
-            .anyRequest().permitAll()
+            .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers("/api/**").authenticated()
+                    .anyRequest().permitAll()
         )
         .exceptionHandling(handler -> handler.authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
